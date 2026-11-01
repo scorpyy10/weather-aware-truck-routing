@@ -14,7 +14,7 @@ export const useTimelinePlayer = ({
   const [currentHour, setCurrentHour] = useState<number>(initialHour);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [speed, setSpeed] = useState<number>(1); // 1x or 2x
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (isPlaying) {
