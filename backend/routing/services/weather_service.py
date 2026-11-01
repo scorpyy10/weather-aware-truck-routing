@@ -10,7 +10,10 @@ from routing.services.sampling_service import parse_iso_datetime
 logger = logging.getLogger(__name__)
 
 OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
-BATCH_CHUNK_SIZE = 40  # coordinates per HTTP request
+BATCH_CHUNK_SIZE = 30  # coordinates per HTTP request
+WEATHER_REQ_HEADERS = {
+    "User-Agent": "WeatherAwareTruckRouting/1.0 (Mozilla/5.0 compatible; WeatherService/1.0)"
+}
 
 
 def weather_code_to_condition(code: int) -> str:
@@ -107,7 +110,12 @@ def fetch_batch_weather(
         }
 
         try:
-            resp = requests.get(OPEN_METEO_URL, params=params, timeout=6)
+            resp = requests.get(
+                OPEN_METEO_URL,
+                params=params,
+                headers=WEATHER_REQ_HEADERS,
+                timeout=15,
+            )
             if resp.status_code == 200:
                 data = resp.json()
                 # Open-Meteo returns a list of results if multiple points queried, or a dict if 1 point
@@ -122,14 +130,25 @@ def fetch_batch_weather(
                     hourly = data["hourly"]
                     results[pt] = hourly
                     cache.set(make_cache_key(pt[0], pt[1], date_prefix), hourly, 1800)
+                print(f"[WEATHER_SERVICE] Successfully fetched weather for {len(chunk)} coordinates.")
+            else:
+                err_snippet = resp.text[:250] if resp.text else "(empty)"
+                print(f"[WEATHER_ERROR] Open-Meteo returned HTTP {resp.status_code}: {err_snippet}")
+                logger.error(f"Open-Meteo HTTP {resp.status_code}: {err_snippet}")
         except Exception as e:
-            logger.warning(f"Open-Meteo batch request error: {e}")
+            print(f"[WEATHER_EXCEPTION] Open-Meteo batch request failed: {type(e).__name__}: {e}")
+            logger.exception(f"Open-Meteo batch request error: {e}")
 
     # For any coordinates that still failed to fetch, populate with synthetic baseline
+    failed_count = 0
     for pt in missing_coords:
         if pt not in results:
+            failed_count += 1
             synth = create_synthetic_hourly_weather()
             results[pt] = synth
+
+    if failed_count > 0:
+        print(f"[WEATHER_WARNING] {failed_count}/{len(missing_coords)} coordinates failed to fetch; used synthetic fallback (Risk 1 baseline).")
 
     return results
 
