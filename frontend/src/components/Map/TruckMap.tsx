@@ -47,11 +47,11 @@ const KEYLESS_BASEMAP_STYLE: maplibregl.StyleSpecification = {
     'osm-standard': {
       type: 'raster',
       tiles: [
-        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
       ],
       tileSize: 256,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
     },
   },
   layers: [
