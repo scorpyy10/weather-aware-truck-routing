@@ -85,8 +85,8 @@ export const RouteSearchForm: React.FC<RouteSearchFormProps> = ({ isLoading, onS
 
   const originContainerRef = useRef<HTMLDivElement>(null);
   const destContainerRef = useRef<HTMLDivElement>(null);
-  const originDebounceTimer = useRef<NodeJS.Timeout | null>(null);
-  const destDebounceTimer = useRef<NodeJS.Timeout | null>(null);
+  const originDebounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const destDebounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
