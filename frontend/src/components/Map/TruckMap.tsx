@@ -24,7 +24,7 @@ interface TruckMapProps {
 }
 
 // 100% keyless, open-access basemap style specification
-// Features Esri Dark Gray Canvas (high contrast, zero API keys required) and OpenStreetMap Standard
+// Features Esri Dark Gray Canvas for dark mode and Esri Light Gray Canvas for light mode (zero API keys required)
 const KEYLESS_BASEMAP_STYLE: maplibregl.StyleSpecification = {
   version: 8,
   sources: {
@@ -44,14 +44,21 @@ const KEYLESS_BASEMAP_STYLE: maplibregl.StyleSpecification = {
       ],
       tileSize: 256,
     },
-    'osm-standard': {
+    'esri-light-base': {
       type: 'raster',
       tiles: [
-        'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
       ],
       tileSize: 256,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+        '&copy; <a href="https://www.esri.com" target="_blank">Esri</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+    },
+    'esri-light-reference': {
+      type: 'raster',
+      tiles: [
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+      ],
+      tileSize: 256,
     },
   },
   layers: [
@@ -72,11 +79,19 @@ const KEYLESS_BASEMAP_STYLE: maplibregl.StyleSpecification = {
       layout: { visibility: 'visible' },
     },
     {
-      id: 'osm-standard-base',
+      id: 'esri-light-base-layer',
       type: 'raster',
-      source: 'osm-standard',
+      source: 'esri-light-base',
       minzoom: 0,
-      maxzoom: 19,
+      maxzoom: 16,
+      layout: { visibility: 'none' },
+    },
+    {
+      id: 'esri-light-reference-layer',
+      type: 'raster',
+      source: 'esri-light-reference',
+      minzoom: 0,
+      maxzoom: 16,
       layout: { visibility: 'none' },
     },
   ],
@@ -164,7 +179,7 @@ export const TruckMap: React.FC<TruckMapProps> = ({
     };
   }, []);
 
-  // Sync MapLibre basemap layers with active theme (Dark Canvas vs Light OSM)
+  // Sync MapLibre basemap layers with active theme (Dark Canvas vs Light Canvas)
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
@@ -175,8 +190,11 @@ export const TruckMap: React.FC<TruckMapProps> = ({
     if (map.getLayer('esri-dark-reference-layer')) {
       map.setLayoutProperty('esri-dark-reference-layer', 'visibility', isDark ? 'visible' : 'none');
     }
-    if (map.getLayer('osm-standard-base')) {
-      map.setLayoutProperty('osm-standard-base', 'visibility', !isDark ? 'visible' : 'none');
+    if (map.getLayer('esri-light-base-layer')) {
+      map.setLayoutProperty('esri-light-base-layer', 'visibility', !isDark ? 'visible' : 'none');
+    }
+    if (map.getLayer('esri-light-reference-layer')) {
+      map.setLayoutProperty('esri-light-reference-layer', 'visibility', !isDark ? 'visible' : 'none');
     }
   }, [isDark, mapLoaded]);
 
