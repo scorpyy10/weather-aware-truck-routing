@@ -189,35 +189,7 @@ routing/tests/test_api_integration.py::TestRouteApiIntegration (3 passed)
 ======================== 28 passed in 0.60s =========================
 ```
 
----
 
-## 📹 5–10 Minute Loom Walkthrough Script
-
-When recording your video walkthrough, follow this structured demo:
-
-1. **Introduction & System Overview (1 min)**:
-   - Introduce the app as a decision-support dispatch dashboard built with React + Django REST Framework.
-   - Highlight the dark-mode freight theme, clean navigation, and keyless architecture.
-2. **1-Click Test Corridor & Route Generation (2 min)**:
-   - Click the **Denver $\to$ Salt Lake City** preset.
-   - Show that 3 distinct route options are generated (via I-80 Northern, via I-70 Mountain, via US-40 Alternate).
-   - Show the sampling intervals selector (toggle between 10, 25, and 50 miles) and show how checkpoint frequency changes.
-3. **Risk Rules & Load Escalation Verification (2 min)**:
-   - Select Route 2 (I-70). Click on an alpine checkpoint marker to open the inspection popup.
-   - Demonstrate the exact weather metrics (wind speed, rain rate, snowfall, temperature) and show the **Trigger Rule** explanation.
-   - Adjust cargo weight between `0 lbs` (Empty), `32,000 lbs` (triggers $>30\text{k}$ rule), and `45,000 lbs` (triggers $>40\text{k}$ rule) and observe how the risk badges update.
-4. **Transparent Decision Rationale Card (1.5 min)**:
-   - Point out the top green **Decision Recommendation Rationale** card.
-   - Explain how the 5-tier lexicographical ranking picked the winner based on Fewest Severe miles, Fewest High miles, Lowest average risk, and Transit time.
-5. **0–48 Hour Forecast Slider & Heatmap Animation (2 min)**:
-   - Press **Play Front** on the bottom timeline bar.
-   - Show how the WebGL corridor heatmap smoothly morphs at 60fps across the 48-hour horizon.
-   - Point out how checkpoints dynamically recolor as the weather front moves across the Rockies.
-6. **Codebase Architecture & Unit Tests (1.5 min)**:
-   - Briefly showcase the clean domain separation in `backend/routing/services/` (`risk_engine.py`, `route_generator.py`, `weather_service.py`, `sampling_service.py`).
-   - Run `pytest` in the terminal to show all 28 tests passing.
-
----
 
 ## 📜 License
 Distributed under the MIT License. Developed for Spotter Full Stack Developer Assessment.
