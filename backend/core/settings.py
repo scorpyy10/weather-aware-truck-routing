@@ -82,6 +82,7 @@ STATICFILES_DIRS = []
 if (BASE_DIR.parent / 'frontend' / 'dist').exists():
     STATICFILES_DIRS.append(BASE_DIR.parent / 'frontend' / 'dist')
 
+WHITENOISE_ROOT = BASE_DIR.parent / 'frontend' / 'dist'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
