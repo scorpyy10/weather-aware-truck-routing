@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+@theme {
+  --color-freight-900: #0B0F19;
+  --color-freight-800: #111827;
+  --color-freight-700: #1F2937;
+  --color-freight-600: #374151;
+  --color-freight-500: #4B5563;
+  --color-freight-accent: #3B82F6;
+  --color-freight-highlight: #60A5FA;
+
+  --color-risk-low: #10B981;
+  --color-risk-moderate: #F59E0B;
+  --color-risk-high: #F97316;
+  --color-risk-severe: #EF4444;
+  --color-risk-notravel: #9333EA;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #0B0F19;
+  color: #F3F4F6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4B5563;
+}

@@ -1,0 +1,30 @@
+# Environment & Dependencies
+.env
+*.env
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+node_modules/
+dist/
+build/
+staticfiles/
+
+# IDE & OS
+.DS_Store
+.idea/
+.vscode/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Scratch and local files
+.superpowers/
+.agent/
+*.png
+
+
